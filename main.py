@@ -6,7 +6,7 @@ from config import *
 conn = sqlite3.connect('bot1.db', check_same_thread=False)
 cursor = conn.cursor()
 
-def db_table_val_test(user_id: int, last_name: str, first_name: str, username: str):
+def db_table_val(user_id: int, last_name: str, first_name: str, username: str):
     cursor.execute('INSERT INTO test (user_id, last_name, first_name, username) VALUES (?, ?, ?, ?)',
                    (user_id, last_name, first_name, username))
 
@@ -44,7 +44,7 @@ def profile(call):
         profile_message = 'Ваш профиль:\n' + UserID + LastName + FistName + UserName
         bot.send_message(us_id, profile_message)
 
-        db_table_val_test(user_id=us_id, last_name=la_name, first_name=fi_name, username=username)
+        db_table_val(user_id=us_id, last_name=la_name, first_name=fi_name, username=username)
 
     elif button[1] == "2":
         for row in cursor.execute('SELECT COUNT(*) FROM test ORDER BY user_id'):

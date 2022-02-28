@@ -53,7 +53,14 @@ def profile(call):
 
 @bot.message_handler(content_types=["text"])
 def repeat_all_messages(message):
-    bot.send_message(message.chat.id, message.text)
+    ans = ''
+    it = message.text[0]
+    i = 0
+    while it != ' ':
+        i += 1
+        ans += it
+        it = message.text[i]
+    bot.send_message(message.chat.id, ans)
 
 
 bot.polling(none_stop=True)

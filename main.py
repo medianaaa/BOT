@@ -7,8 +7,8 @@ conn = sqlite3.connect('bot1.db', check_same_thread=False)
 cursor = conn.cursor()
 
 def db_table_val(user_id: int, last_name: str, first_name: str, username: str):
-    cursor.execute('INSERT INTO test (user_id, last_name, first_name, username) VALUES (?, ?, ?, ?)',
-                   (user_id, last_name, first_name, username))
+    cursor.execute('INSERT OR IGNORE INTO test (user_id, last_name, first_name, username) VALUES (?, ?, ?, ?)',
+                   [user_id, last_name, first_name, username])
 
     conn.commit()
 
@@ -54,8 +54,8 @@ def profile(call):
 @bot.message_handler(content_types=["text"])
 def repeat_all_messages(message):
     ans = ''
-    it = message.text[0]
     i = 0
+    it = message.text[0]
     while it != ' ':
         i += 1
         ans += it
@@ -63,4 +63,5 @@ def repeat_all_messages(message):
     bot.send_message(message.chat.id, ans)
 
 
-bot.polling(none_stop=True)
+if __name__ == '__main__':
+    bot.polling(none_stop=True)
